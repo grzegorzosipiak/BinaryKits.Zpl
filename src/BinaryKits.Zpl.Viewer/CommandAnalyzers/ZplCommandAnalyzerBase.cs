@@ -29,7 +29,9 @@ namespace BinaryKits.Zpl.Viewer.CommandAnalyzers
 
         protected FieldOrientation ConvertFieldOrientation(string fieldOrientation, VirtualPrinter virtualPrinter)
         {
-            return fieldOrientation switch
+            // Zebra firmware accepts the orientation letter in either case (e.g. ^FWr, ^BCr),
+            // so normalize before matching to avoid silently dropping the rotation.
+            return fieldOrientation?.ToUpperInvariant() switch
             {
                 "N" => FieldOrientation.Normal,
                 "R" => FieldOrientation.Rotated90,
